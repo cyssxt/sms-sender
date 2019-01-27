@@ -1,7 +1,7 @@
 package com.cyssxt.smsspringbootstarter.service;
 
 import com.cyssxt.smsspringbootstarter.config.SmsSenderConfig;
-import com.cyssxt.smsspringbootstarter.core.SmsDataSource;
+import com.cyssxt.smsspringbootstarter.dao.SmsDataSource;
 import com.cyssxt.smsspringbootstarter.request.SendReq;
 import org.springframework.stereotype.Service;
 

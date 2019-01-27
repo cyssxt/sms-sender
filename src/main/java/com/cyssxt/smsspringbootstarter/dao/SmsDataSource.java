@@ -1,4 +1,4 @@
-package com.cyssxt.smsspringbootstarter.core;
+package com.cyssxt.smsspringbootstarter.dao;
 
 import com.cyssxt.smsspringbootstarter.request.SendReq;
 

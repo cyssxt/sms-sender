@@ -1,7 +1,9 @@
 package com.cyssxt.smsspringbootstarter.core;
 
 import com.cyssxt.smsspringbootstarter.config.SmsSenderConfig;
+import com.cyssxt.smsspringbootstarter.dao.SmsDataSource;
 import com.cyssxt.smsspringbootstarter.service.SmsSendThread;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -23,6 +25,9 @@ public class SmsManager {
 
     @Resource
     SmsSendListener smsSendListener;
+
+    @Resource
+    RedisTemplate redisTemplate;
 
     private ExecutorService executorService;
 

@@ -1,17 +1,15 @@
-package com.cyssxt.smsspringbootstarter.core;
+package com.cyssxt.smsspringbootstarter.dao;
 
 import com.cyssxt.smsspringbootstarter.request.SendReq;
 
-import java.util.HashMap;
-import java.util.Map;
-
-public class DefaultSmsDataSource implements SmsDataSource {
+public class RedisDataSource implements SmsDataSource{
 
     @Override
     public String getMsgCode(String phoneNumber) {
         return null;
     }
 
+    @Override
     public SendReq pop() {
         return null;
     }
@@ -25,4 +23,5 @@ public class DefaultSmsDataSource implements SmsDataSource {
     public boolean clear() {
         return false;
     }
+
 }

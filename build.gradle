@@ -24,12 +24,16 @@ sourceCompatibility = '1.8'
 repositories {
     mavenCentral()
     maven { url 'https://projectlombok.org/edge-releases' }
+    maven { url "http://repo.spring.io/libs-milestone" }
+    maven { url "http://repo.spring.io/libs-snapshot" }
 }
 
 dependencies {
+    include project(":common")
     implementation 'org.springframework.boot:spring-boot-starter'
     compileOnly 'org.projectlombok:lombok:edge-SNAPSHOT'
     apt 'org.projectlombok:lombok:edge-SNAPSHOT'
     compileOnly "org.springframework.boot:spring-boot-configuration-processor"
+    compile "org.springframework.data:spring-data-redis"
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

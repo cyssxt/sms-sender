@@ -26,9 +26,6 @@ public class SmsManager {
     @Resource
     SmsSendListener smsSendListener;
 
-    @Resource
-    RedisTemplate redisTemplate;
-
     private ExecutorService executorService;
 
     @PostConstruct
@@ -36,7 +33,7 @@ public class SmsManager {
         int threadNum = smsSenderConfig.getThreadNum();
         executorService  = Executors.newFixedThreadPool(threadNum);
         for(int i=0;i<threadNum;i++) {
-            executorService.execute(new SmsSendThread(smsDataSource,smsSender,smsSendListener));
+            executorService.execute(new SmsSendThread(smsSender,smsSendListener,smsDataSource));
         }
     }
 }

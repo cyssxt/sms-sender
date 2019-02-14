@@ -10,17 +10,22 @@ public class RedisDataSource implements SmsDataSource{
     }
 
     @Override
-    public SendReq pop() {
+    public SendReq pop(String key) {
         return null;
     }
 
     @Override
-    public boolean push(SendReq req) {
+    public boolean push(String key, SendReq req) {
         return false;
     }
 
     @Override
-    public boolean clear() {
+    public boolean cache(String key, String msgCode) {
+        return false;
+    }
+
+    @Override
+    public boolean clear(String key) {
         return false;
     }
 

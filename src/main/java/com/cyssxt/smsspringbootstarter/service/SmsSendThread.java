@@ -1,5 +1,6 @@
 package com.cyssxt.smsspringbootstarter.service;
 
+import com.cyssxt.smsspringbootstarter.constant.RedisKeyConstant;
 import com.cyssxt.smsspringbootstarter.dao.SmsDataSource;
 import com.cyssxt.smsspringbootstarter.core.SmsSendListener;
 import com.cyssxt.smsspringbootstarter.core.SmsSender;
@@ -24,7 +25,7 @@ public class SmsSendThread extends Thread {
     boolean pop(){
         boolean hasFlag = false;
         for(SmsDataSource smsDataSource:smsDataSources){
-            SendReq req = smsDataSource.pop();
+            SendReq req = smsDataSource.pop(RedisKeyConstant.SMS_SET);
             if(req!=null){
                 hasFlag = true;
                 logger.info("start to send phone={},msg={}",req.getPhoneNumber(),req.getMsgCode());
@@ -42,7 +43,7 @@ public class SmsSendThread extends Thread {
     @Override
     public void run() {
         for(SmsDataSource smsDataSource:this.smsDataSources) {
-            smsDataSource.clear();
+            smsDataSource.clear(RedisKeyConstant.SMS_SET);
         }
         while(true){
             boolean flag = pop();

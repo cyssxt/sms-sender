@@ -3,20 +3,19 @@ package com.cyssxt.smsspringbootstarter.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
+@Component
 @Data
-@ConfigurationProperties(prefix = "cyssxt.sms")
-@PropertySource(value = "classpath:sms.properties")
 public class SmsSenderConfig {
-
     String type;
     int timeout = 0;
     boolean autogenerator = true;
-    @Value("${redis.host}")
     String redisHost;
-    @Value("${thread-num}")
+    @Value("${cyssxt.sms.sender.threadNum:2}")
     int threadNum=2;
+    @Value("${cyssxt.sms.test:false}")
     boolean test = false;
+    @Value("${cyssxt.sms.prefix:msgcode_}")
+    String prefix;
 }

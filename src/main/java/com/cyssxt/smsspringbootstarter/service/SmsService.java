@@ -82,7 +82,7 @@ public class SmsService {
      */
     public boolean validCode(String phone,String msgCode){
         String code = getValue(phone);
-        if(msgCode.equals(code) || ("000000".equals(code) && smsSenderConfig.isTest())){
+        if(msgCode.equals(code) || ("000000".equals(msgCode) && smsSenderConfig.isTest())){
             return true;
         }
         return false;

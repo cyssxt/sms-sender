@@ -14,7 +14,7 @@ public class SmsSenderConfig {
     String redisHost;
     @Value("${cyssxt.sms.sender.threadNum:2}")
     int threadNum=2;
-    @Value("${cyssxt.sms.test:false}")
+    @Value("${cyssxt.sms.test:true}")
     boolean test = false;
     @Value("${cyssxt.sms.prefix:msgcode_}")
     String prefix;

@@ -12,6 +12,7 @@ repositories {
 
 
 dependencies {
+    compile project(":common")
     compileOnly('org.projectlombok:lombok:1.18.2')
     compile('com.querydsl:querydsl-jpa:4.2.1')
     compile('com.querydsl:querydsl-apt:4.2.1')

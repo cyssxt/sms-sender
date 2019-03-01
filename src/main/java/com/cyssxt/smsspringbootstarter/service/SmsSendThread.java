@@ -42,6 +42,14 @@ public class SmsSendThread extends Thread {
 
     @Override
     public void run() {
+        while(smsDataSources==null || smsDataSources.length==0){
+            try {
+                sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            continue;
+        }
         for(SmsDataSource smsDataSource:this.smsDataSources) {
             smsDataSource.clear(RedisKeyConstant.SMS_SET);
         }

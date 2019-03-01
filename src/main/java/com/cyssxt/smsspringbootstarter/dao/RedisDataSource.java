@@ -2,10 +2,12 @@ package com.cyssxt.smsspringbootstarter.dao;
 
 import com.cyssxt.smsspringbootstarter.request.SendReq;
 
+import java.util.concurrent.TimeUnit;
+
 public class RedisDataSource implements SmsDataSource{
 
     @Override
-    public String getMsgCode(String phoneNumber) {
+    public String getValue(String phoneNumber) {
         return null;
     }
 
@@ -20,13 +22,23 @@ public class RedisDataSource implements SmsDataSource{
     }
 
     @Override
-    public boolean cache(String key, String msgCode) {
+    public boolean cache(String key, String msgCode,int unitValue,TimeUnit timeUnit) {
         return false;
     }
 
     @Override
     public boolean clear(String key) {
         return false;
+    }
+
+    @Override
+    public void repeatSet(String repeatKey, String value, int time, TimeUnit timeUint) {
+
+    }
+
+    @Override
+    public void onDel(String key, String repeatKey, String msgCode) {
+
     }
 
 }

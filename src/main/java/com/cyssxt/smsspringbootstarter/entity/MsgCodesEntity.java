@@ -1,12 +1,14 @@
 package com.cyssxt.smsspringbootstarter.entity;
 
+import com.cyssxt.common.entity.BaseEntity;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "msg_codes")
-public class MsgCodesEntity{
+public class MsgCodesEntity {
     private Integer rowId;
     private Boolean delFlag;
     private Timestamp createTime;

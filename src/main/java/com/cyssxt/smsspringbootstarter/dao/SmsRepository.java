@@ -1,8 +1,8 @@
 package com.cyssxt.smsspringbootstarter.dao;
 
 
+import com.cyssxt.common.dao.CommonRepository;
 import com.cyssxt.smsspringbootstarter.entity.MsgCodesEntity;
-import org.springframework.data.repository.CrudRepository;
 
-public interface SmsRepository extends CrudRepository<MsgCodesEntity,Integer> {
+public interface SmsRepository extends CommonRepository<MsgCodesEntity,Integer> {
 }

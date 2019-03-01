@@ -2,6 +2,8 @@ package com.cyssxt.smsspringbootstarter.dao;
 
 import com.cyssxt.smsspringbootstarter.request.SendReq;
 
+import java.util.concurrent.TimeUnit;
+
 public interface SmsDataSource {
 
     /**
@@ -9,7 +11,7 @@ public interface SmsDataSource {
      * @param key
      * @return
      */
-    String getMsgCode(String key);
+    String getValue(String key);
 
     /**
      * 队列压出短信
@@ -29,7 +31,7 @@ public interface SmsDataSource {
      * @param msgCode
      * @return
      */
-    boolean cache(String key,String msgCode);
+    boolean cache(String key, String msgCode,int unitValue,TimeUnit timeUnit);
 
     /**
      * 清空短信内容
@@ -37,5 +39,7 @@ public interface SmsDataSource {
      */
     boolean clear(String key);
 
+    void repeatSet(String repeatKey, String value, int time, TimeUnit timeUint);
 
+    void onDel(String key,String repeatKey,String msgCode);
 }

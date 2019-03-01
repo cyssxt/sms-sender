@@ -18,4 +18,6 @@ public class SmsSenderConfig {
     boolean test = false;
     @Value("${cyssxt.sms.prefix:msgcode_}")
     String prefix;
+    @Value("${cyssxt.sms.prefix:msgcode_repeat_}")
+    String repeatKey;
 }

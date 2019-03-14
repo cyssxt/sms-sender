@@ -29,13 +29,13 @@ public class SmsManager {
 
     @PostConstruct
     public void init(){
-        int threadNum = 10;
+        int threadNum = 1;
         smsService.clearSendHistory();
         executorService  = Executors.newFixedThreadPool(threadNum);
         //清空短信息
         smsDataSource.clear(RedisKeyConstant.SMS_SET);
         for(int i=0;i<threadNum;i++) {
-            executorService.execute(new SmsSendThread(smsSender,smsSendListener,smsDataSource));
+            executorService.execute(new SmsSendThread(smsSender,smsSendListener,smsService,smsDataSource));
         }
     }
 }

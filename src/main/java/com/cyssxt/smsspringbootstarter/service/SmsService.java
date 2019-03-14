@@ -1,6 +1,7 @@
 package com.cyssxt.smsspringbootstarter.service;
 
 import com.cyssxt.common.exception.ValidException;
+import com.cyssxt.common.utils.CommonUtils;
 import com.cyssxt.common.utils.DateUtils;
 import com.cyssxt.common.utils.JpaUtil;
 import com.cyssxt.smsspringbootstarter.config.SmsSenderConfig;
@@ -34,6 +35,11 @@ public class SmsService {
 
     @Resource
     SmsRepository smsRepository;
+
+    public void sendSms(String phoneNumber) throws ValidException {
+        String msgCode = smsSenderConfig.getIsNumber()?CommonUtils.getMsgCodeOfInt():CommonUtils.getMsgCode();
+        sendSms(new SendReq(phoneNumber,msgCode));
+    }
 
     public void sendSms(SendReq req) throws ValidException {
         String msgCode = req.getMsgCode();
@@ -88,23 +94,37 @@ public class SmsService {
         return false;
     }
 
+    public void updateSmsStatus(Integer smsId,Byte status){
+        if(smsId!=null){
+            Optional<MsgCodesEntity> optional = smsRepository.findById(smsId);
+            if(optional.isPresent()){
+                MsgCodesEntity msgCodesEntity = optional.get();
+                msgCodesEntity.setStatus(status);
+                msgCodesEntity.setUpdateTime(DateUtils.getCurrentTimestamp());
+                smsRepository.save(msgCodesEntity);
+            }
+        }
+    }
+
     public void clearSendHistory(){
         SendReq req = null;
         while((req=smsDataSource.pop(RedisKeyConstant.SMS_SET))!=null){
             String phoneNumber = req.getPhoneNumber();
+            logger.info("del send history={}",phoneNumber);
             String msgCode = req.getMsgCode();
             String repeatKey = getRepeatKey(phoneNumber);
             String key = getKey(phoneNumber);
             Integer smsId = req.getSmsId();
-            if(smsId!=null){
-                Optional<MsgCodesEntity> optional = smsRepository.findById(smsId);
-                if(optional.isPresent()){
-                    MsgCodesEntity msgCodesEntity = optional.get();
-                    msgCodesEntity.setStatus(SendStatusConstant.DEL);
-                    msgCodesEntity.setUpdateTime(DateUtils.getCurrentTimestamp());
-                    smsRepository.save(msgCodesEntity);
-                }
-            }
+            updateSmsStatus(smsId,SendStatusConstant.DEL);
+//            if(smsId!=null){
+//                Optional<MsgCodesEntity> optional = smsRepository.findById(smsId);
+//                if(optional.isPresent()){
+//                    MsgCodesEntity msgCodesEntity = optional.get();
+//                    msgCodesEntity.setStatus(SendStatusConstant.DEL);
+//                    msgCodesEntity.setUpdateTime(DateUtils.getCurrentTimestamp());
+//                    smsRepository.save(msgCodesEntity);
+//                }
+//            }
             logger.info("del={},smsId={}",phoneNumber,smsId);
             smsDataSource.onDel(key,repeatKey,msgCode);
         }

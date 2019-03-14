@@ -1,6 +1,7 @@
 package com.cyssxt.smsspringbootstarter.service;
 
 import com.cyssxt.smsspringbootstarter.constant.RedisKeyConstant;
+import com.cyssxt.smsspringbootstarter.constant.SendStatusConstant;
 import com.cyssxt.smsspringbootstarter.dao.SmsDataSource;
 import com.cyssxt.smsspringbootstarter.core.SmsSendListener;
 import com.cyssxt.smsspringbootstarter.core.SmsSender;
@@ -15,11 +16,13 @@ public class SmsSendThread extends Thread {
     private SmsDataSource[] smsDataSources;
     private SmsSender smsSender;
     private SmsSendListener smsSendListener;
+    private SmsService smsService;
 
-    public SmsSendThread(SmsSender sender,SmsSendListener smsSendListener,SmsDataSource ...smsDataSource){
+    public SmsSendThread(SmsSender sender,SmsSendListener smsSendListener,SmsService smsService,SmsDataSource ...smsDataSource){
         this.smsSender = sender;
         this.smsSendListener = smsSendListener;
         this.smsDataSources = smsDataSource;
+        this.smsService = smsService;
     }
 
     boolean pop(){
@@ -31,8 +34,10 @@ public class SmsSendThread extends Thread {
                 logger.info("start to send phone={},msg={}",req.getPhoneNumber(),req.getMsgCode());
                 boolean flag = smsSender.send(req);
                 if(flag){
+                    smsService.updateSmsStatus(req.getSmsId(),SendStatusConstant.SUCCESS);
                     this.smsSendListener.success(req);
                 }else {
+                    smsService.updateSmsStatus(req.getSmsId(),SendStatusConstant.FAIL);
                     this.smsSendListener.fail(req);
                 }
             }

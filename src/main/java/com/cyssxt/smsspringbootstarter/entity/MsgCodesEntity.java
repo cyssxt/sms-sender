@@ -3,61 +3,15 @@ package com.cyssxt.smsspringbootstarter.entity;
 import com.cyssxt.common.entity.BaseEntity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
 @Table(name = "msg_codes")
-public class MsgCodesEntity {
-    private Integer rowId;
-    private Boolean delFlag;
-    private Timestamp createTime;
-    private Timestamp updateTime;
+public class MsgCodesEntity extends BaseEntity{
     private String sessionId;
     private String msgCode;
     private String phoneNumber;
     private Byte status;
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name = "row_id", unique = true,nullable=false)
-    public Integer getRowId() {
-        return rowId;
-    }
-
-    public void setRowId(Integer rowId) {
-        this.rowId = rowId;
-    }
-
-    @Basic
-    @Column(name = "del_flag")
-    public Boolean getDelFlag() {
-        return delFlag;
-    }
-
-    public void setDelFlag(Boolean delFlag) {
-        this.delFlag = delFlag;
-    }
-
-    @Basic
-    @Column(name = "create_time")
-    public Timestamp getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Timestamp createTime) {
-        this.createTime = createTime;
-    }
-
-    @Basic
-    @Column(name = "update_time")
-    public Timestamp getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
-    }
 
     @Basic
     @Column(name = "session_id")

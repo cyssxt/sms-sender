@@ -1,9 +1,7 @@
 package com.cyssxt.smsspringbootstarter.service;
 
 import com.cyssxt.common.exception.ValidException;
-import com.cyssxt.common.utils.CommonUtils;
-import com.cyssxt.common.utils.DateUtils;
-import com.cyssxt.common.utils.JpaUtil;
+import com.cyssxt.common.util.CommonUtil;
 import com.cyssxt.smsspringbootstarter.config.SmsSenderConfig;
 import com.cyssxt.smsspringbootstarter.constant.RedisKeyConstant;
 import com.cyssxt.smsspringbootstarter.constant.SendStatusConstant;
@@ -12,6 +10,7 @@ import com.cyssxt.smsspringbootstarter.dao.SmsDataSource;
 import com.cyssxt.smsspringbootstarter.dao.SmsRepository;
 import com.cyssxt.smsspringbootstarter.entity.MsgCodesEntity;
 import com.cyssxt.smsspringbootstarter.request.SendReq;
+import com.cyssxt.smsspringbootstarter.util.CommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -37,7 +36,7 @@ public class SmsService {
     SmsRepository smsRepository;
 
     public void sendSms(String phoneNumber) throws ValidException {
-        String msgCode = smsSenderConfig.getIsNumber()?CommonUtils.getMsgCodeOfInt():CommonUtils.getMsgCode();
+        String msgCode = smsSenderConfig.getIsNumber()? CommonUtils.getMsgCodeOfInt():CommonUtils.getMsgCode();
         sendSms(new SendReq(phoneNumber,msgCode));
     }
 
@@ -59,7 +58,7 @@ public class SmsService {
         msgCodesEntity.setStatus(SendStatusConstant.WAIT);
         smsRepository.save(msgCodesEntity);
         String key = getKey(phoneNumber);
-        Integer smsId = msgCodesEntity.getRowId();
+        String smsId = msgCodesEntity.getRowId();
         req.setSmsId(smsId);
         smsDataSource.push(RedisKeyConstant.SMS_SET,req);
         smsDataSource.cache(key,msgCode,5,TimeUnit.MINUTES);
@@ -94,13 +93,13 @@ public class SmsService {
         return false;
     }
 
-    public void updateSmsStatus(Integer smsId,Byte status){
+    public void updateSmsStatus(String smsId,Byte status){
         if(smsId!=null){
             Optional<MsgCodesEntity> optional = smsRepository.findById(smsId);
             if(optional.isPresent()){
                 MsgCodesEntity msgCodesEntity = optional.get();
                 msgCodesEntity.setStatus(status);
-                msgCodesEntity.setUpdateTime(DateUtils.getCurrentTimestamp());
+                msgCodesEntity.setUpdateTime(CommonUtil.getCurrentTimestamp());
                 smsRepository.save(msgCodesEntity);
             }
         }
@@ -114,7 +113,7 @@ public class SmsService {
             String msgCode = req.getMsgCode();
             String repeatKey = getRepeatKey(phoneNumber);
             String key = getKey(phoneNumber);
-            Integer smsId = req.getSmsId();
+            String smsId = req.getSmsId();
             updateSmsStatus(smsId,SendStatusConstant.DEL);
 //            if(smsId!=null){
 //                Optional<MsgCodesEntity> optional = smsRepository.findById(smsId);

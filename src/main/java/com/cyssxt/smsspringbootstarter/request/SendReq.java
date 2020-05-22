@@ -6,7 +6,7 @@ import lombok.Data;
 public class SendReq {
     private String phoneNumber;
     private String msgCode;
-    Integer smsId;
+    String smsId;
 
     public SendReq(String phoneNumber, String msgCode) {
         this.phoneNumber = phoneNumber;
